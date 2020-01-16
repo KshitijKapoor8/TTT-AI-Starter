@@ -5,6 +5,7 @@ import java.util.*;
 
 public class ClientMain
 {
+	
 	public static final String ip = "127.0.0.1";
 	public static final int port = 8003;
 	
