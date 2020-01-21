@@ -24,6 +24,7 @@ public class DisplayScreenV_AI extends JFrame implements Runnable
 	public void paint(Graphics g)
 	{
 		board.draw(img.getGraphics());
+        //yeet-----------------------------------------------------------------------------
 
 		g.drawImage(img,0,0,null);
 	}
