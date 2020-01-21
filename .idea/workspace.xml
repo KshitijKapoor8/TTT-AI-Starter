@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cc79e2fe-2f13-4a29-9fe5-59d3bf6cdc59" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/MoveScore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DisplayScreenV_AI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DisplayScreenV_AI.java" afterDir="false" />
-    </list>
+    <list default="true" id="cc79e2fe-2f13-4a29-9fe5-59d3bf6cdc59" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -84,9 +74,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
