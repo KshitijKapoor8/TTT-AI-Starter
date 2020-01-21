@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc79e2fe-2f13-4a29-9fe5-59d3bf6cdc59" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/MoveScore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DisplayScreenV_AI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DisplayScreenV_AI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Test_AI_2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TTT AI Starter/ClientMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TTT AI Starter/ClientMain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TTT AI Starter/DisplayScreenV_AI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TTT AI Starter/DisplayScreenV_AI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ClientMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ClientMain.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,6 +31,9 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\t1300288\Desktop\TTT AI Starter\src" />
     </key>
@@ -77,6 +83,14 @@
       <option name="presentableId" value="Default" />
       <updated>1578670914713</updated>
     </task>
+    <task id="LOCAL-00001" summary="y">
+      <created>1579624076986</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1579624076986</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -91,5 +105,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="y" />
+    <option name="LAST_COMMIT_MESSAGE" value="y" />
   </component>
 </project>
