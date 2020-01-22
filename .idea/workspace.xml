@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cc79e2fe-2f13-4a29-9fe5-59d3bf6cdc59" name="Default Changelist" comment="" />
+    <list default="true" id="cc79e2fe-2f13-4a29-9fe5-59d3bf6cdc59" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/MoveScore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MoveScore.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +101,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579628289826</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="y">
+      <created>1579709705810</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1579709705810</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
