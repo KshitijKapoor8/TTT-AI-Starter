@@ -1,4 +1,3 @@
-
 public class MoveScore {
     private int x;
     private int y;
@@ -9,8 +8,9 @@ public class MoveScore {
 
     }
 
-    public void gradeMove(int x, int y, int z, Board board, char player)
+    public int gradeMove(int x, int y, int z, Board board, char player, char opponent)
     {
+        int my4s = 0;
         int count = 1;
 
         for (int i = 0; i < board.numCols(); i++)
@@ -19,6 +19,17 @@ public class MoveScore {
             {
                 count++;
             }
+            else if (board.getData()[new Location(x, y, z).getSheet()][new Location(x, y, z).getRow()][i] == opponent)
+            {
+                count = 0;
+                break;
+            }
         }
+        if (count == 3)
+        {
+            my4s++;
+        }
+        return my4s;
+
     }
 }
