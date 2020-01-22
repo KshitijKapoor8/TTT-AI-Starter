@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Test_AI_2 implements PlayerInt
@@ -22,6 +23,10 @@ public class Test_AI_2 implements PlayerInt
 	// Post: 	returns the Location where the player wants to move
 	public Location getMove(Board board)
 	{
+		boolean[] checkSpot = new boolean[26];
+		for (boolean x : checkSpot) {
+			x = true;
+		}
 		Location l = null;
 		Random rand = new Random();
 		do
@@ -30,20 +35,33 @@ public class Test_AI_2 implements PlayerInt
 				for(int c = 0 ; c < board.numCols() ; c++) {
 					for(int d = 0 ; d < board.numSheets() ; d++) {
 						if(board.getLocation(new Location(r, c, d)) != getLetter()) {
-							if(r == 3 || c == 3 || d == 3) {
-								l = new Location(r-1, c-1, d-1);
+							if(r == 3) {
+								for(int x = 0 ; x < 9 ; x++) {
+									checkSpot[x] = false;
+								}
 							}
-							else {
-								l = new Location(r+1, c, d+1);
+							else if(r == 0) {
+								for(int x = 17 ; x < 26 ; x++) {
+									checkSpot[x] = false;
+								}
 							}
-							break;
-						}
-						else {
-							l = new Location(rand.nextInt(4),rand.nextInt(4),rand.nextInt(4));
-							break;
+							if(c == 0) {
+								for(int x = 0 ; x < 24 ; x+=3) {
+									if(x == 15) {
+										x--;
+									}
+									checkSpot[x] = false;
+								}
+							}
+							else if(c == 3) {
+
+							}
 						}
 					}
 				}
+			}
+			if(l == null) {
+				l = new Location(rand.nextInt(4),rand.nextInt(4),rand.nextInt(4));
 			}
 		}while(!board.isEmpty(l));
 		return l;
