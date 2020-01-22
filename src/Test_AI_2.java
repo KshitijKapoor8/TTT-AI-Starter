@@ -26,6 +26,13 @@ public class Test_AI_2 implements PlayerInt
 		Random rand = new Random();
 		do
 		{
+			for(int r = 0 ; r < board.numRows() ; r++) {
+				for(int c = 0 ; c < board.numCols() ; c++) {
+					for(int d = 0 ; d < board.numSheets() ; d++) {
+
+					}
+				}
+			}
 			l = new Location(rand.nextInt(4),rand.nextInt(4),rand.nextInt(4));
 		}while(!board.isEmpty(l));
 		return l;
