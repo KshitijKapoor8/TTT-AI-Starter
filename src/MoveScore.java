@@ -1,4 +1,3 @@
 public class MoveScore {
-    //stuff
-    
+    //Ian is yeetus deletus
 }
