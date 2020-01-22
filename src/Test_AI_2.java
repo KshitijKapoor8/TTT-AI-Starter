@@ -29,7 +29,7 @@ public class Test_AI_2 implements PlayerInt
 			for(int r = 0 ; r < board.numRows() ; r++) {
 				for(int c = 0 ; c < board.numCols() ; c++) {
 					for(int d = 0 ; d < board.numSheets() ; d++) {
-
+						if(board.getLocation(new Location(r, c, d)) == )
 					}
 				}
 			}
