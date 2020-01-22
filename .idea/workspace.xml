@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc79e2fe-2f13-4a29-9fe5-59d3bf6cdc59" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/MoveScore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MoveScore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Test_AI_2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Test_AI_2.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,7 +19,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="ProjectId" id="1WD4cz3X1ixthHFFLNLk4uTxy7k" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -94,21 +93,7 @@
       <option name="project" value="LOCAL" />
       <updated>1579627147061</updated>
     </task>
-    <task id="LOCAL-00003" summary="y">
-      <created>1579628289826</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1579628289826</updated>
-    </task>
-    <task id="LOCAL-00004" summary="y">
-      <created>1579709705810</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1579709705810</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
