@@ -25,8 +25,8 @@ public class ClientMain
 		DisplayScreenV_AI ds = new DisplayScreenV_AI(board);
 		int mode = 0;
 		
-		PlayerInt myAIasX = new Test_AI_2('X');
-		PlayerInt myAIasO = new Test_AI_2('O');
+		PlayerInt myAIasX = new Test_AI_3('X');
+		PlayerInt myAIasO = new Test_AI_1('O');
 		String myAI_Name = myAIasX.getName();
 		String opponentName = "";
 		PlayerInt currentlyPlaying = null;
