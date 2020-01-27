@@ -25,7 +25,7 @@ public class Test_AI_3 implements PlayerInt
     // Post: 	returns the Location where the player wants to move
     public Location getMove(Board board)
     {
-        Location l;
+        Location l = null;
         Location greatest = new Location(0, 0, 0);
         Random rand = new Random();
         ArrayList<Integer> test = new ArrayList<>();
