@@ -92,15 +92,15 @@ public class Test_AI_2 implements PlayerInt
 											System.out.println("yurp");
 											Location origin = checkSpotAnalyzer(x,new Location(c, r, d));
 											boolean[] checkSpot1 = checkSpot(board, origin.getCol(), origin.getRow(), origin.getSheet());
-											if(checkSpot1[x] && board.isEmpty(checkSpotAnalyzer(x, origin))) {
+											if(checkSpot1[x] && board.isEmpty(checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())))) {
 												System.out.println("yert1");
-												l = checkSpotAnalyzer(x, origin);
+												l = checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet()));
 												done = true;
 												break;
 											}
-											else if(checkSpot1[25-x] && board.isEmpty(checkSpotAnalyzer(25-x, origin))) {
+											else if(checkSpot1[25-x] && board.isEmpty(checkSpotAnalyzer(25-x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())))) {
 												System.out.println("yert2");
-												l = checkSpotAnalyzer(25-x, origin);
+												l = checkSpotAnalyzer(25-x, new Location(origin.getCol(), origin.getRow(), origin.getSheet()));
 												done = true;
 												break;
 											}
@@ -222,9 +222,7 @@ public class Test_AI_2 implements PlayerInt
 
 	public boolean[] checkSpot(Board board, int c, int r, int d) {
 		boolean[] checkSpot = new boolean[26];
-		for (boolean x : checkSpot) {
-			x = true;
-		}
+		Arrays.fill(checkSpot, true);
 		if (board.getLocation(new Location(c, r, d)) != getLetter() && !board.isEmpty(new Location(c, r, d))) {
 			if (r == 0) {
 				for (int x = 0; x < 9; x++) {
