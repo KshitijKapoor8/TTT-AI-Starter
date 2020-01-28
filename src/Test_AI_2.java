@@ -93,16 +93,20 @@ public class Test_AI_2 implements PlayerInt
 											Location origin = checkSpotAnalyzer(x,new Location(c, r, d));
 											boolean[] checkSpot1 = checkSpot(board, origin.getCol(), origin.getRow(), origin.getSheet());
 											if(checkSpot1[x] && board.isEmpty(checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())))) {
-												System.out.println("yert1");
-												l = checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet()));
-												done = true;
-												break;
+												if(worthBlocking(new Location(c, r, d), checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())), board, x)) {
+													System.out.println("yert1");
+													l = checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet()));
+													done = true;
+													break;
+												}
 											}
 											else if(checkSpot1[25-x] && board.isEmpty(checkSpotAnalyzer(25-x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())))) {
-												System.out.println("yert2");
-												l = checkSpotAnalyzer(25-x, new Location(origin.getCol(), origin.getRow(), origin.getSheet()));
-												done = true;
-												break;
+												if(worthBlocking(new Location(c, r, d), checkSpotAnalyzer(25-x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())), board, 25-x)) {
+													System.out.println("yert2");
+													l = checkSpotAnalyzer(25 - x, new Location(origin.getCol(), origin.getRow(), origin.getSheet()));
+													done = true;
+													break;
+												}
 											}
 										}
 									}
@@ -223,7 +227,6 @@ public class Test_AI_2 implements PlayerInt
 	public boolean[] checkSpot(Board board, int c, int r, int d) {
 		boolean[] checkSpot = new boolean[26];
 		Arrays.fill(checkSpot, true);
-		if (board.getLocation(new Location(c, r, d)) != getLetter() && !board.isEmpty(new Location(c, r, d))) {
 			if (r == 0) {
 				for (int x = 0; x < 9; x++) {
 					checkSpot[x] = false;
@@ -267,7 +270,33 @@ public class Test_AI_2 implements PlayerInt
 					checkSpot[x] = false;
 				}
 			}
-		}
 		return checkSpot;
+	}
+
+	public boolean worthBlocking(Location origin, Location check, Board board, int x) {
+		int inRow = 3;
+		boolean blocked = false;
+		boolean[] checkSpot1 = checkSpot(board, check.getCol(), check.getRow(), check.getSheet());
+		boolean[] checkSpot2 = checkSpot(board, origin.getCol(), origin.getRow(), origin.getSheet());
+		if(checkSpot1[x]) {
+			Location a = checkSpotAnalyzer(x, check);
+			inRow++;
+			if(board.getLocation(a) == getLetter()) {
+				blocked = true;
+			}
+		}
+		else if(checkSpot2[25-x]) {
+			Location a = checkSpotAnalyzer(x, origin);
+			inRow++;
+			if(board.getLocation(a) == getLetter()) {
+				blocked = true;
+			}
+		}
+		if(blocked || inRow < 4) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 }
