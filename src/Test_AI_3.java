@@ -25,8 +25,8 @@ public class Test_AI_3 implements PlayerInt
     // Post: 	returns the Location where the player wants to move
     public Location getMove(Board board)
     {
-        System.out.println(lookAhead(board, 0, new Location(0, 0, 0), new Location(0, 0, 0)));
-        return lookAhead(board, 0, new Location(0, 0, 0), new Location(0, 0, 0));
+        System.out.println(lookAhead(board, 0));
+        return lookAhead(board, 0);
 //        Location l;
 //        Location greatest = new Location(0, 0, 0);
 //        Random rand = new Random();
@@ -96,6 +96,115 @@ public class Test_AI_3 implements PlayerInt
     public PlayerInt freshCopy()
     {
         return new Test_AI_1(letter);
+    }
+
+    public int gradeBoard(Board board)
+    {
+        Location l;
+        Location greatest = new Location(0, 0, 0);
+        Random rand = new Random();
+        ArrayList<Integer> test = new ArrayList<>();
+        int[][][] compare = new int[4][4][4];
+
+        int count = 0;
+        for (int x = 0; x < board.getData().length; x++)
+        {
+            for (int y = 0; y < board.getData()[0].length; y++)
+            {
+                for (int z = 0 ; z < board.getData()[0][0].length; z++) {
+                    if (board.getData()[x][y][z] != '-')
+                    {
+                        count++;
+                    }
+                }
+            }
+        }
+//        if (count == 0)
+//        {
+//            return new Location(1,2,3);
+//        }
+
+        for (int x = 0; x < board.getData().length; x++)
+        {
+            for (int y = 0; y < board.getData()[0].length; y++)
+            {
+                for (int z = 0 ; z < board.getData()[0][0].length; z++) {
+                    if (board.getData()[x][y][z] == 'X' || board.getData()[x][y][z] == 'O')
+                    {
+                        continue;
+                    }
+                    compare[x][y][z] = gradeMove(new Location(x, y, z), board, getLetter(), 'O');
+                    test.add(compare[x][y][z]);
+                }
+            }
+        }
+        int score = 0;
+        for (int i = 0; i < test.size(); i++)
+        {
+            score += test.get(i);
+        }
+        return score;
+    }
+
+    public Location gradeBoardHighest(Board board)
+    {
+        Location l;
+        Location greatest = new Location(0, 0, 0);
+        Random rand = new Random();
+        ArrayList<Integer> test = new ArrayList<>();
+        int[][][] compare = new int[4][4][4];
+
+        int count = 0;
+        for (int x = 0; x < board.getData().length; x++)
+        {
+            for (int y = 0; y < board.getData()[0].length; y++)
+            {
+                for (int z = 0 ; z < board.getData()[0][0].length; z++) {
+                    if (board.getData()[x][y][z] != '-')
+                    {
+                        count++;
+                    }
+                }
+            }
+        }
+        if (count == 0)
+        {
+            return new Location(1,2,3);
+        }
+
+        for (int x = 0; x < board.getData().length; x++)
+        {
+            for (int y = 0; y < board.getData()[0].length; y++)
+            {
+                for (int z = 0 ; z < board.getData()[0][0].length; z++) {
+                    if (board.getData()[x][y][z] == 'X' || board.getData()[x][y][z] == 'O')
+                    {
+                        continue;
+                    }
+                    compare[x][y][z] = gradeMove(new Location(x, y, z), board, getLetter(), 'O');
+                    test.add(compare[x][y][z]);
+                }
+            }
+        }
+
+        for (int x = 0; x < compare.length; x++)
+        {
+            for (int y = 0; y < compare[0].length; y++)
+            {
+                for (int z = 0 ; z < compare[0][0].length; z++)
+                {
+                    if (compare[x][y][z] >= compare[greatest.getCol()][greatest.getRow()][greatest.getSheet()] && (board.getData()[x][y][z] != 'X' || board.getData()[x][y][z] != 'O'))
+                    {
+                        greatest = new Location(x, y, z);
+                    }
+                }
+            }
+        }
+
+        System.out.println(greatest);
+        System.out.println(compare[greatest.getSheet()][greatest.getRow()][greatest.getCol()]);
+        l = greatest;
+        return l;
     }
 
     public int gradeMove(Location l, Board board, char player, char opponent)
@@ -212,54 +321,97 @@ public class Test_AI_3 implements PlayerInt
         }
     }
 
-    public Location lookAhead(Board board, int num, Location bestLocation, Location opponentBest)
+    public Location lookAhead(Board board, int num)
     {
-        int[][][] board1 = new int[4][4][4];
-        Location greatest = new Location(0, 0, 0);
-        Location lowest = new Location(0, 0, 0);
+//
+//        int[][][] board1 = new int[4][4][4];
+//        Location greatest = bestLocation;
+//        Location lowest = opponentBest;
+//        for (int x = 0; x < board.getData().length; x++)
+//        {
+//            for (int y = 0; y < board.getData()[0].length; y++)
+//            {
+//                for (int z = 0 ; z < board.getData()[0][0].length; z++) {
+//                    board1[x][y][z] = gradeMove(new Location(x, y, z), board, getLetter(), 'O');
+//                    if (board1[x][y][z] >= 1000)
+//                    {
+//                        return new Location(x, y, z);
+//                    }
+//                }
+//            }
+//        }
+//        for (int x = 0; x < board1.length; x++)
+//        {
+//            for (int y = 0; y < board1[0].length; y++)
+//            {
+//                for (int z = 0 ; z < board1[0][0].length; z++)
+//                {
+//                    if (board1[x][y][z] >= board1[greatest.getCol()][greatest.getRow()][greatest.getSheet()] && (board.getData()[x][y][z] != 'X' || board.getData()[x][y][z] != 'O'))
+//                    {
+//                        greatest = new Location(x, y, z);
+//                    }
+//                    if (board1[x][y][z] <= board1[lowest.getCol()][lowest.getRow()][lowest.getSheet()] && (board.getData()[x][y][z] != 'X' || board.getData()[x][y][z] != 'O'))
+//                    {
+//                        lowest = new Location(z, y, x);
+//                    }
+//                }
+//            }
+//        }
+//        Board copy = (Board) board.clone();
+//        Board copy2 = (Board) board.clone();
+//
+//        if (num == 5)
+//        {
+//            System.out.println("test");
+//            return greatest;
+//        }
+//        else {
+//            copy.setLocation(greatest, 'X');
+//            copy2.setLocation(lowest, 'O');
+//
+//            if (num % 2 == 0)
+//                return lookAhead(copy2, num + 1, greatest, lowest);
+//            else
+//                return lookAhead(copy, num + 1, greatest, lowest);
+//        }
+
+        // Grade all possible moves
+        Board clone;
+        Board greatestBoard = board;
+        Board leastBoard = board;
+        int greatestBoardValue = gradeBoard(greatestBoard);
+        int leastBoardValue = gradeBoard(leastBoard);
+
+
         for (int x = 0; x < board.getData().length; x++)
         {
             for (int y = 0; y < board.getData()[0].length; y++)
             {
-                for (int z = 0 ; z < board.getData()[0][0].length; z++) {
-                    board1[x][y][z] = gradeMove(new Location(x, y, z), board, getLetter(), 'O');
-                    if (board1[x][y][z] >= 1000)
-                    {
-                        return new Location(x, y, z);
-                    }
-                }
-            }
-        }
-        for (int x = 0; x < board1.length; x++)
-        {
-            for (int y = 0; y < board1[0].length; y++)
-            {
-                for (int z = 0 ; z < board1[0][0].length; z++)
+                for (int z = 0; z < board.getData()[0][0].length; z++)
                 {
-                    if (board1[x][y][z] >= board1[greatest.getCol()][greatest.getRow()][greatest.getSheet()] && (board.getData()[x][y][z] != 'X' || board.getData()[x][y][z] != 'O'))
+                    if (board.getData()[x][y][z] == '-')
                     {
-                        greatest = new Location(x, y, z);
-                    }
-                    if (board1[x][y][z] <= board1[lowest.getCol()][lowest.getRow()][lowest.getSheet()] && (board.getData()[x][y][z] != 'X' || board.getData()[x][y][z] != 'O'))
-                    {
-                        lowest = new Location(x, y, z);
+                        clone = (Board)board.clone();
+                        clone.setLocation(new Location(x, y, z), getLetter());
+                        int i = gradeBoard(clone);
+                        if (i > greatestBoardValue)
+                        {
+                            greatestBoard = clone;
+                            greatestBoardValue = i;
+                        }
+                        if (i < leastBoardValue)
+                        {
+                            leastBoard = clone;
+                            leastBoardValue = i;
+                        }
                     }
                 }
             }
         }
-        Board copy = (Board) board.clone();
-        Board copy2 = (Board) board.clone();
-        if (num == 5)
+        if (num == 10)
         {
-            return greatest;
+            return gradeBoardHighest(greatestBoard);
         }
-        else {
-
-            copy.setLocation(greatest, 'X');
-            copy2.setLocation(lowest, 'O');
-            lookAhead(copy2, num + 1, greatest, lowest);
-            return lookAhead(copy, num + 1, greatest, lowest);
-        }
-
+        return lookAhead(greatestBoard, num + 1);
     }
 }
