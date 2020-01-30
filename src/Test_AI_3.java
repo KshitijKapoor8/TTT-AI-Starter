@@ -1,4 +1,5 @@
 import javax.rmi.ssl.SslRMIClientSocketFactory;
+import java.nio.file.ClosedWatchServiceException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -25,7 +26,6 @@ public class Test_AI_3 implements PlayerInt
     // Post: 	returns the Location where the player wants to move
     public Location getMove(Board board)
     {
-        System.out.println(lookAhead(board, 0));
         return lookAhead(board, 0);
 //        Location l;
 //        Location greatest = new Location(0, 0, 0);
@@ -133,7 +133,11 @@ public class Test_AI_3 implements PlayerInt
                     {
                         continue;
                     }
-                    compare[x][y][z] = gradeMove(new Location(x, y, z), board, getLetter(), 'O');
+                    if (getLetter() == 'X')
+                        compare[x][y][z] = gradeMove(new Location(x, y, z), board, getLetter(), 'O');
+                    else
+                        compare[x][y][z] = gradeMove(new Location(x, y, z), board, getLetter(), 'X');
+
                     test.add(compare[x][y][z]);
                 }
             }
@@ -201,8 +205,7 @@ public class Test_AI_3 implements PlayerInt
             }
         }
 
-        System.out.println(greatest);
-        System.out.println(compare[greatest.getSheet()][greatest.getRow()][greatest.getCol()]);
+
         l = greatest;
         return l;
     }
@@ -226,27 +229,6 @@ public class Test_AI_3 implements PlayerInt
                     count1 = 0;
                     break;
                 }
-                if (count1 == 4) {
-                    my4s++;
-                } else if (count1 == 3) {
-                    my3s++;
-                } else if (count1 == 2) {
-                    my2s++;
-                }
-                if (count2 == 4) {
-                    my4s++;
-                } else if (count2 == 3) {
-                    my3s++;
-                } else if (count2 == 2) {
-                    my2s++;
-                }
-                if (count3 == 4) {
-                    my4s++;
-                } else if (count3 == 3) {
-                    my3s++;
-                } else if (count3 == 2) {
-                    my2s++;
-                }
 
             }
 
@@ -257,27 +239,6 @@ public class Test_AI_3 implements PlayerInt
                 } else if (board.getData()[l.getSheet()][i][l.getCol()] == opponent) {
                     count2 = 0;
                     break;
-                }
-                if (count1 == 4) {
-                    my4s++;
-                } else if (count1 == 3) {
-                    my3s++;
-                } else if (count1 == 2) {
-                    my2s++;
-                }
-                if (count2 == 4) {
-                    my4s++;
-                } else if (count2 == 3) {
-                    my3s++;
-                } else if (count2 == 2) {
-                    my2s++;
-                }
-                if (count3 == 4) {
-                    my4s++;
-                } else if (count3 == 3) {
-                    my3s++;
-                } else if (count3 == 2) {
-                    my2s++;
                 }
 
             }
@@ -290,30 +251,17 @@ public class Test_AI_3 implements PlayerInt
                     count3 = 0;
                     break;
                 }
-                if (count1 == 4) {
-                    my4s++;
-                } else if (count1 == 3) {
-                    my3s++;
-                } else if (count1 == 2) {
-                    my2s++;
-                }
-                if (count2 == 4) {
-                    my4s++;
-                } else if (count2 == 3) {
-                    my3s++;
-                } else if (count2 == 2) {
-                    my2s++;
-                }
-                if (count3 == 4) {
-                    my4s++;
-                } else if (count3 == 3) {
-                    my3s++;
-                } else if (count3 == 2) {
-                    my2s++;
-                }
+
             }
 
-            return (my4s * 1000) + (my3s * 20) + (my2s * 7);
+            System.out.println(my4s);
+
+            if (my4s >= 1)
+            {
+                System.out.println("FOUND A 4\n" + my4s);
+
+            }
+            return (my4s * 1000) + (my3s * 100) + (my2s * 10);
         }
         else
         {
@@ -323,58 +271,6 @@ public class Test_AI_3 implements PlayerInt
 
     public Location lookAhead(Board board, int num)
     {
-//
-//        int[][][] board1 = new int[4][4][4];
-//        Location greatest = bestLocation;
-//        Location lowest = opponentBest;
-//        for (int x = 0; x < board.getData().length; x++)
-//        {
-//            for (int y = 0; y < board.getData()[0].length; y++)
-//            {
-//                for (int z = 0 ; z < board.getData()[0][0].length; z++) {
-//                    board1[x][y][z] = gradeMove(new Location(x, y, z), board, getLetter(), 'O');
-//                    if (board1[x][y][z] >= 1000)
-//                    {
-//                        return new Location(x, y, z);
-//                    }
-//                }
-//            }
-//        }
-//        for (int x = 0; x < board1.length; x++)
-//        {
-//            for (int y = 0; y < board1[0].length; y++)
-//            {
-//                for (int z = 0 ; z < board1[0][0].length; z++)
-//                {
-//                    if (board1[x][y][z] >= board1[greatest.getCol()][greatest.getRow()][greatest.getSheet()] && (board.getData()[x][y][z] != 'X' || board.getData()[x][y][z] != 'O'))
-//                    {
-//                        greatest = new Location(x, y, z);
-//                    }
-//                    if (board1[x][y][z] <= board1[lowest.getCol()][lowest.getRow()][lowest.getSheet()] && (board.getData()[x][y][z] != 'X' || board.getData()[x][y][z] != 'O'))
-//                    {
-//                        lowest = new Location(z, y, x);
-//                    }
-//                }
-//            }
-//        }
-//        Board copy = (Board) board.clone();
-//        Board copy2 = (Board) board.clone();
-//
-//        if (num == 5)
-//        {
-//            System.out.println("test");
-//            return greatest;
-//        }
-//        else {
-//            copy.setLocation(greatest, 'X');
-//            copy2.setLocation(lowest, 'O');
-//
-//            if (num % 2 == 0)
-//                return lookAhead(copy2, num + 1, greatest, lowest);
-//            else
-//                return lookAhead(copy, num + 1, greatest, lowest);
-//        }
-
         // Grade all possible moves
         Board clone;
         Board greatestBoard = board;
@@ -392,7 +288,7 @@ public class Test_AI_3 implements PlayerInt
                     if (board.getData()[x][y][z] == '-')
                     {
                         clone = (Board)board.clone();
-                        clone.setLocation(new Location(x, y, z), getLetter());
+                        clone.setLocation(new Location(z, y, x), getLetter());
                         int i = gradeBoard(clone);
                         if (i > greatestBoardValue)
                         {
@@ -408,7 +304,7 @@ public class Test_AI_3 implements PlayerInt
                 }
             }
         }
-        if (num == 10)
+        if (num == 6)
         {
             return gradeBoardHighest(greatestBoard);
         }
