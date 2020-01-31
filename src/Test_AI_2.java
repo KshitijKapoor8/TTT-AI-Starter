@@ -11,7 +11,7 @@ public class Test_AI_2 implements PlayerInt
 	// Post: 	sets the name to "Random AI" and the letter to the letter received
 	Test_AI_2(char letter)
 	{
-		name 		= "Test AI";
+		name 		= "Shield Turtle";
 		this.letter	= letter;
 	}
 
@@ -91,7 +91,7 @@ public class Test_AI_2 implements PlayerInt
 										if(board.getLocation(checkSpotAnalyzer(x,new Location(c, r, d))) != getLetter() && !board.isEmpty(checkSpotAnalyzer(x,new Location(c, r, d)))) {
 											System.out.println("yurp");
 											Location origin = checkSpotAnalyzer(x,new Location(c, r, d));
-											boolean[] checkSpot1 = checkSpot(board, origin.getCol(), origin.getRow(), origin.getSheet());
+											boolean[] checkSpot1 = checkSpot(origin.getCol(), origin.getRow(), origin.getSheet());
 											if(checkSpot1[x] && board.isEmpty(checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())))) {
 												if(worthBlocking(new Location(c, r, d), checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())), board, x)) {
 													System.out.println("yert1");
@@ -125,7 +125,12 @@ public class Test_AI_2 implements PlayerInt
 					}
 			}
 			if(l == null || !board.isEmpty(l)) {
-				l = new Location(rand.nextInt(4),rand.nextInt(4),rand.nextInt(4));
+				if(winnable(board) != null) {
+					l = winnable(board);
+				}
+				else {
+					l = new Location(rand.nextInt(4), rand.nextInt(4), rand.nextInt(4));
+				}
 			}
 		}while(!board.isEmpty(l));
 		return l;
@@ -144,87 +149,92 @@ public class Test_AI_2 implements PlayerInt
 	}
 
 	public Location checkSpotAnalyzer(int spot, Location origin) {
+		Location output = null;
+		System.out.print("origin is "+ origin);
 		if(spot == 0) {
-			return new Location(origin.getCol()-1,origin.getRow()-1,origin.getSheet()+1);
+			output = new Location(origin.getCol()-1,origin.getRow()-1,origin.getSheet()+1);
+
 		}
 		else if(spot == 1) {
-			return new Location(origin.getCol(),origin.getRow()-1,origin.getSheet()+1);
+			output = new Location(origin.getCol(),origin.getRow()-1,origin.getSheet()+1);
 		}
 		else if(spot == 2) {
-			return new Location(origin.getCol()+1,origin.getRow()-1,origin.getSheet()+1);
+			output = new Location(origin.getCol()+1,origin.getRow()-1,origin.getSheet()+1);
 		}
 		else if(spot == 3) {
-			return new Location(origin.getCol()-1,origin.getRow()-1,origin.getSheet());
+			output = new Location(origin.getCol()-1,origin.getRow()-1,origin.getSheet());
 		}
 		else if(spot == 4) {
-			return new Location(origin.getCol(),origin.getRow()-1,origin.getSheet());
+			output = new Location(origin.getCol(),origin.getRow()-1,origin.getSheet());
 		}
 		else if(spot == 5) {
-			return new Location(origin.getCol()+1,origin.getRow()-1,origin.getSheet());
+			output = new Location(origin.getCol()+1,origin.getRow()-1,origin.getSheet());
 		}
 		else if(spot == 6) {
-			return new Location(origin.getCol()-1,origin.getRow()-1,origin.getSheet()-1);
+			output = new Location(origin.getCol()-1,origin.getRow()-1,origin.getSheet()-1);
 		}
 		else if(spot == 7) {
-			return new Location(origin.getCol(),origin.getRow()-1,origin.getSheet()-1);
+			output = new Location(origin.getCol(),origin.getRow()-1,origin.getSheet()-1);
 		}
 		else if(spot == 8) {
-			return new Location(origin.getCol()+1,origin.getRow()-1,origin.getSheet()-1);
+			output = new Location(origin.getCol()+1,origin.getRow()-1,origin.getSheet()-1);
 		}
 		else if(spot == 9) {
-			return new Location(origin.getCol()-1,origin.getRow(),origin.getSheet()+1);
+			output = new Location(origin.getCol()-1,origin.getRow(),origin.getSheet()+1);
 		}
 		else if(spot == 10) {
-			return new Location(origin.getCol(),origin.getRow(),origin.getSheet()+1);
+			output = new Location(origin.getCol(),origin.getRow(),origin.getSheet()+1);
 		}
 		else if(spot == 11) {
-			return new Location(origin.getCol()+1,origin.getRow(),origin.getSheet()+1);
+			output = new Location(origin.getCol()+1,origin.getRow(),origin.getSheet()+1);
 		}
 		else if(spot == 12) {
-			return new Location(origin.getCol()-1,origin.getRow(),origin.getSheet());
+			output = new Location(origin.getCol()-1,origin.getRow(),origin.getSheet());
 		}
 		else if(spot == 13) {
-			return new Location(origin.getCol()+1,origin.getRow(),origin.getSheet());
+			output = new Location(origin.getCol()+1,origin.getRow(),origin.getSheet());
 		}
 		else if(spot == 14) {
-			return new Location(origin.getCol()-1,origin.getRow(),origin.getSheet()-1);
+			output = new Location(origin.getCol()-1,origin.getRow(),origin.getSheet()-1);
 		}
 		else if(spot == 15) {
-			return new Location(origin.getCol(),origin.getRow(),origin.getSheet()-1);
+			output = new Location(origin.getCol(),origin.getRow(),origin.getSheet()-1);
 		}
 		else if(spot == 16) {
-			return new Location(origin.getCol()+1,origin.getRow(),origin.getSheet()-1);
+			output = new Location(origin.getCol()+1,origin.getRow(),origin.getSheet()-1);
 		}
 		else if(spot == 17) {
-			return new Location(origin.getCol()-1,origin.getRow()+1,origin.getSheet()+1);
+			output = new Location(origin.getCol()-1,origin.getRow()+1,origin.getSheet()+1);
 		}
 		else if(spot == 18) {
-			return new Location(origin.getCol(),origin.getRow()+1,origin.getSheet()+1);
+			output = new Location(origin.getCol(),origin.getRow()+1,origin.getSheet()+1);
 		}
 		else if(spot == 19) {
-			return new Location(origin.getCol()+1,origin.getRow()+1,origin.getSheet()+1);
+			output = new Location(origin.getCol()+1,origin.getRow()+1,origin.getSheet()+1);
 		}
 		else if(spot == 20) {
-			return new Location(origin.getCol()-1,origin.getRow()+1,origin.getSheet());
+			output = new Location(origin.getCol()-1,origin.getRow()+1,origin.getSheet());
 		}
 		else if(spot == 21) {
-			return new Location(origin.getCol(),origin.getRow()+1,origin.getSheet());
+			output = new Location(origin.getCol(),origin.getRow()+1,origin.getSheet());
 		}
 		else if(spot == 22) {
-			return new Location(origin.getCol()+1,origin.getRow()+1,origin.getSheet());
+			output = new Location(origin.getCol()+1,origin.getRow()+1,origin.getSheet());
 		}
 		else if(spot == 23) {
-			return new Location(origin.getCol()-1,origin.getRow()+1,origin.getSheet()-1);
+			output = new Location(origin.getCol()-1,origin.getRow()+1,origin.getSheet()-1);
 		}
 		else if(spot == 24) {
-			return new Location(origin.getCol(),origin.getRow()+1,origin.getSheet()-1);
+			output = new Location(origin.getCol(),origin.getRow()+1,origin.getSheet()-1);
 		}
 		else {
-			return new Location(origin.getCol()+1,origin.getRow()+1,origin.getSheet()-1);
+			output = new Location(origin.getCol()+1,origin.getRow()+1,origin.getSheet()-1);
 		}
+		System.out.println(" Spot "+ spot+ " output is " + output);
+		return output;
 	}
 
-	public boolean[] checkSpot(Board board, int c, int r, int d) {
+	public boolean[] checkSpot(int c, int r, int d) {
 		boolean[] checkSpot = new boolean[26];
 		Arrays.fill(checkSpot, true);
 			if (r == 0) {
@@ -239,7 +249,7 @@ public class Test_AI_2 implements PlayerInt
 			if (c == 0) {
 				for (int x = 0; x < 24; x += 3) {
 					if (x == 15) {
-						x--;
+						--x;
 					}
 					checkSpot[x] = false;
 				}
@@ -276,9 +286,10 @@ public class Test_AI_2 implements PlayerInt
 	public boolean worthBlocking(Location origin, Location check, Board board, int x) {
 		int inRow = 3;
 		boolean blocked = false;
-		boolean[] checkSpot1 = checkSpot(board, check.getCol(), check.getRow(), check.getSheet());
-		boolean[] checkSpot2 = checkSpot(board, origin.getCol(), origin.getRow(), origin.getSheet());
+		boolean[] checkSpot1 = checkSpot(check.getCol(), check.getRow(), check.getSheet());
+		boolean[] checkSpot2 = checkSpot(origin.getCol(), origin.getRow(), origin.getSheet());
 		if(checkSpot1[x]) {
+			check = new Location(check.getCol(), check.getRow(), check.getSheet());
 			Location a = checkSpotAnalyzer(x, check);
 			inRow++;
 			if(board.getLocation(a) == getLetter()) {
@@ -286,17 +297,54 @@ public class Test_AI_2 implements PlayerInt
 			}
 		}
 		else if(checkSpot2[25-x]) {
+			origin = new Location(origin.getCol(), origin.getRow(), origin.getSheet());
 			Location a = checkSpotAnalyzer(x, origin);
 			inRow++;
 			if(board.getLocation(a) == getLetter()) {
 				blocked = true;
 			}
 		}
-		if(blocked || inRow < 4) {
+		if(blocked || inRow < 4 || winnable(board) != null) {
 			return false;
 		}
 		else {
 			return true;
 		}
+	}
+
+	public Location winnable(Board board) {
+		for(int c = 0 ; c < 4 ; c++) {
+			for(int r = 0 ; r < 4 ; r++) {
+				for(int d = 0 ; d < 4 ; d++) {
+					if(board.getLocation(new Location(c, r, d)) == getLetter()) {
+						boolean[] checkSpot1 = checkSpot(c, r, d);
+						for(int a = 0 ; a < checkSpot1.length ; a++) {
+							if(checkSpot1[a] = true) {
+								System.out.println(a);
+								System.out.println(new Location(c, r, d).toString());
+								if(board.getLocation(checkSpotAnalyzer(a, new Location(c, r, d))) == getLetter()) {
+									Location next = checkSpotAnalyzer(a, new Location(c, r, d));
+									checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+									if(checkSpot1[a]) {
+										if(board.getLocation(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()))) == getLetter()) {
+											next = checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()));
+											checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+											boolean[] checkSpot2 = checkSpot(c, r, d);
+											if(checkSpot1[a] && board.isEmpty(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet())))) {
+												return checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()));
+											}
+											else if(checkSpot2[25-a] && board.isEmpty(checkSpotAnalyzer(25-a, new Location(c, r, d)))) {
+												return checkSpotAnalyzer(25-a, new Location(c, r, d));
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
 }
