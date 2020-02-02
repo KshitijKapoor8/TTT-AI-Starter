@@ -280,6 +280,9 @@ public class Test_AI_2 implements PlayerInt
 					checkSpot[x] = false;
 				}
 			}
+		for (boolean a : checkSpot) {
+			System.out.print(a + " ");
+		}
 		return checkSpot;
 	}
 
@@ -317,9 +320,14 @@ public class Test_AI_2 implements PlayerInt
 			for(int r = 0 ; r < 4 ; r++) {
 				for(int d = 0 ; d < 4 ; d++) {
 					if(board.getLocation(new Location(c, r, d)) == getLetter()) {
-						boolean[] checkSpot1 = checkSpot(c, r, d);
-						for(int a = 0 ; a < checkSpot1.length ; a++) {
-							if(checkSpot1[a] = true) {
+						for(int a = 0 ; a < 26 ; a++) {
+							boolean[] checkSpot1 = checkSpot(c, r, d);
+							System.out.println("In winnable: ");
+							for (boolean b : checkSpot1) {
+								System.out.print(b + " ");
+							}
+							if(checkSpot1[a]) {
+								System.out.println("After check: " + checkSpot1[a]);
 								System.out.println(a);
 								System.out.println(new Location(c, r, d).toString());
 								if(board.getLocation(checkSpotAnalyzer(a, new Location(c, r, d))) == getLetter()) {
