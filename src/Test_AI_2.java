@@ -35,66 +35,14 @@ public class Test_AI_2 implements PlayerInt
 					for(int c = 0 ; c < board.numCols() ; c++) {
 						for(int d = 0 ; d < board.numSheets() ; d++) {
 							if(board.getLocation(new Location(c, r, d)) != getLetter() && !board.isEmpty(new Location(c, r, d))) {
-								if(r == 0) {
-									for(int x = 0 ; x < 9 ; x++) {
-										checkSpot[x] = false;
-									}
-								}
-								else if(r == 3) {
-									for(int x = 17 ; x < 26 ; x++) {
-										checkSpot[x] = false;
-									}
-								}
-								if(c == 0) {
-									for(int x = 0 ; x < 24 ; x+=3) {
-										if(x == 15) {
-											x--;
-										}
-										checkSpot[x] = false;
-									}
-								}
-								else if(c == 3) {
-									for(int x = 2 ; x < 26 ; x+=3) {
-										if(x == 14) {
-											x--;
-										}
-										checkSpot[x] = false;
-									}
-								}
-								if(d == 3) {
-									for(int x = 0 ; x < 20 ; x++) {
-										if(x == 3) {
-											x = 9;
-										}
-										else if(x == 12) {
-											x = 17;
-										}
-										checkSpot[x] = false;
-									}
-								}
-								else if(d == 0) {
-									for(int x = 6 ; x < 26 ; x++) {
-										if(x == 9) {
-											x = 14;
-										}
-										else if(x == 17) {
-											x = 23;
-										}
-										checkSpot[x] = false;
-									}
-								}
-								System.out.println("hup");
+								checkSpot = checkSpot(c, r, d);
 								for (int x = 0 ; x < checkSpot.length ; x++) {
-									System.out.println("yert");
 									if(checkSpot[x]) {
-										System.out.println(c + " " + r + " " + d + " yup " + x);
 										if(board.getLocation(checkSpotAnalyzer(x,new Location(c, r, d))) != getLetter() && !board.isEmpty(checkSpotAnalyzer(x,new Location(c, r, d)))) {
-											System.out.println("yurp");
 											Location origin = checkSpotAnalyzer(x,new Location(c, r, d));
 											boolean[] checkSpot1 = checkSpot(origin.getCol(), origin.getRow(), origin.getSheet());
 											if(checkSpot1[x] && board.isEmpty(checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())))) {
 												if(worthBlocking(new Location(c, r, d), checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())), board, x)) {
-													System.out.println("yert1");
 													l = checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet()));
 													done = true;
 													break;
@@ -102,7 +50,6 @@ public class Test_AI_2 implements PlayerInt
 											}
 											else if(checkSpot1[25-x] && board.isEmpty(checkSpotAnalyzer(25-x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())))) {
 												if(worthBlocking(new Location(c, r, d), checkSpotAnalyzer(25-x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())), board, 25-x)) {
-													System.out.println("yert2");
 													l = checkSpotAnalyzer(25 - x, new Location(origin.getCol(), origin.getRow(), origin.getSheet()));
 													done = true;
 													break;
