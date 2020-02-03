@@ -1,0 +1,526 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
+public class Test_AI_5 implements PlayerInt
+{
+    private char letter;
+    private String name;
+
+    // Pre:		receives a char letter
+    // Post: 	sets the name to "Random AI" and the letter to the letter received
+    Test_AI_5(char letter)
+    {
+        name 		= "Shield_And_Spear";
+        this.letter	= letter;
+    }
+
+    public char getLetter()
+    {
+        return letter;
+    }
+
+    // Pre:		method is called
+    // Post: 	returns the Location where the player wants to move
+
+    // Checks for two in a rows and returns the next move.
+    public Location getMove(Board board)
+    {
+        boolean[] checkSpot = new boolean[26];
+        Arrays.fill(checkSpot, true);
+        boolean done = false;
+        Location l = null;
+        Random rand = new Random();
+        do
+        {
+            for(int r = 0 ; r < board.numRows() ; r++) {
+                for(int c = 0 ; c < board.numCols() ; c++) {
+                    for(int d = 0 ; d < board.numSheets() ; d++) {
+                        if(board.getLocation(new Location(c, r, d)) != getLetter() && !board.isEmpty(new Location(c, r, d))) {
+                            checkSpot = checkSpot(c, r, d);
+                            for (int x = 0 ; x < checkSpot.length ; x++) {
+                                if(checkSpot[x]) {
+                                    if(board.getLocation(checkSpotAnalyzer(x,new Location(c, r, d))) != getLetter() && !board.isEmpty(checkSpotAnalyzer(x,new Location(c, r, d)))) {
+                                        Location origin = checkSpotAnalyzer(x,new Location(c, r, d));
+                                        boolean[] checkSpot1 = checkSpot(origin.getCol(), origin.getRow(), origin.getSheet());
+                                        if(checkSpot1[x] && board.isEmpty(checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())))) {
+                                            if(worthBlocking(new Location(c, r, d), checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())), board, x)) {
+                                                l = checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet()));
+                                                done = true;
+                                                break;
+                                            }
+                                        }
+                                        else if(checkSpot1[25-x] && board.isEmpty(checkSpotAnalyzer(25-x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())))) {
+                                            if(worthBlocking(new Location(c, r, d), checkSpotAnalyzer(25-x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())), board, 25-x)) {
+                                                l = checkSpotAnalyzer(25 - x, new Location(origin.getCol(), origin.getRow(), origin.getSheet()));
+                                                done = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if(done) {
+                            break;
+                        }
+                    }
+                    if(done) {
+                        break;
+                    }
+                }
+                if(done) {
+                    break;
+                }
+            }
+            if(l == null || !board.isEmpty(l) || losable(board) != null) {
+                if(winnable(board) != null) {
+                    l = winnable(board);
+                }
+                else if(losable(board) != null) {
+                    l = losable(board);
+                }
+                else {
+                    //l = new Location(rand.nextInt(4), rand.nextInt(4), rand.nextInt(4));
+                    Location temp = gradeBoardHighest(board);
+                    System.out.println(gradeMove(temp, board, getLetter(), 'O'));
+                    l = temp;
+                }
+            }
+        }while(!board.isEmpty(l));
+        return l;
+    }
+
+    // Pre:		method is called
+    // Post: 	returns the name of the player
+    public String getName()
+    {
+        return name;
+    }
+
+    public PlayerInt freshCopy()
+    {
+        return new Test_AI_2(letter);
+    }
+
+    // returns location for specific spot.
+    public Location checkSpotAnalyzer(int spot, Location origin) {
+        // Origin is the one that it checks all the spots around.
+        Location output = null;
+        if(spot == 0) {
+            output = new Location(origin.getCol()-1,origin.getRow()-1,origin.getSheet()+1);
+
+        }
+        else if(spot == 1) {
+            output = new Location(origin.getCol(),origin.getRow()-1,origin.getSheet()+1);
+        }
+        else if(spot == 2) {
+            output = new Location(origin.getCol()+1,origin.getRow()-1,origin.getSheet()+1);
+        }
+        else if(spot == 3) {
+            output = new Location(origin.getCol()-1,origin.getRow()-1,origin.getSheet());
+        }
+        else if(spot == 4) {
+            output = new Location(origin.getCol(),origin.getRow()-1,origin.getSheet());
+        }
+        else if(spot == 5) {
+            output = new Location(origin.getCol()+1,origin.getRow()-1,origin.getSheet());
+        }
+        else if(spot == 6) {
+            output = new Location(origin.getCol()-1,origin.getRow()-1,origin.getSheet()-1);
+        }
+        else if(spot == 7) {
+            output = new Location(origin.getCol(),origin.getRow()-1,origin.getSheet()-1);
+        }
+        else if(spot == 8) {
+            output = new Location(origin.getCol()+1,origin.getRow()-1,origin.getSheet()-1);
+        }
+        else if(spot == 9) {
+            output = new Location(origin.getCol()-1,origin.getRow(),origin.getSheet()+1);
+        }
+        else if(spot == 10) {
+            output = new Location(origin.getCol(),origin.getRow(),origin.getSheet()+1);
+        }
+        else if(spot == 11) {
+            output = new Location(origin.getCol()+1,origin.getRow(),origin.getSheet()+1);
+        }
+        else if(spot == 12) {
+            output = new Location(origin.getCol()-1,origin.getRow(),origin.getSheet());
+        }
+        else if(spot == 13) {
+            output = new Location(origin.getCol()+1,origin.getRow(),origin.getSheet());
+        }
+        else if(spot == 14) {
+            output = new Location(origin.getCol()-1,origin.getRow(),origin.getSheet()-1);
+        }
+        else if(spot == 15) {
+            output = new Location(origin.getCol(),origin.getRow(),origin.getSheet()-1);
+        }
+        else if(spot == 16) {
+            output = new Location(origin.getCol()+1,origin.getRow(),origin.getSheet()-1);
+        }
+        else if(spot == 17) {
+            output = new Location(origin.getCol()-1,origin.getRow()+1,origin.getSheet()+1);
+        }
+        else if(spot == 18) {
+            output = new Location(origin.getCol(),origin.getRow()+1,origin.getSheet()+1);
+        }
+        else if(spot == 19) {
+            output = new Location(origin.getCol()+1,origin.getRow()+1,origin.getSheet()+1);
+        }
+        else if(spot == 20) {
+            output = new Location(origin.getCol()-1,origin.getRow()+1,origin.getSheet());
+        }
+        else if(spot == 21) {
+            output = new Location(origin.getCol(),origin.getRow()+1,origin.getSheet());
+        }
+        else if(spot == 22) {
+            output = new Location(origin.getCol()+1,origin.getRow()+1,origin.getSheet());
+        }
+        else if(spot == 23) {
+            output = new Location(origin.getCol()-1,origin.getRow()+1,origin.getSheet()-1);
+        }
+        else if(spot == 24) {
+            output = new Location(origin.getCol(),origin.getRow()+1,origin.getSheet()-1);
+        }
+        else {
+            output = new Location(origin.getCol()+1,origin.getRow()+1,origin.getSheet()-1);
+        }
+        return output;
+    }
+
+    public boolean[] checkSpot(int c, int r, int d) {
+        boolean[] checkSpot = new boolean[26];
+        Arrays.fill(checkSpot, true);
+        if (r == 0) {
+            for (int x = 0; x < 9; x++) {
+                checkSpot[x] = false;
+            }
+        } else if (r == 3) {
+            for (int x = 17; x < 26; x++) {
+                checkSpot[x] = false;
+            }
+        }
+        if (c == 0) {
+            for (int x = 0; x < 24; x += 3) {
+                if (x == 15) {
+                    --x;
+                }
+                checkSpot[x] = false;
+            }
+        } else if (c == 3) {
+            for (int x = 2; x < 26; x += 3) {
+                if (x == 14) {
+                    x--;
+                }
+                checkSpot[x] = false;
+            }
+        }
+        if (d == 3) {
+            for (int x = 0; x < 20; x++) {
+                if (x == 3) {
+                    x = 9;
+                } else if (x == 12) {
+                    x = 17;
+                }
+                checkSpot[x] = false;
+            }
+        } else if (d == 0) {
+            for (int x = 6; x < 26; x++) {
+                if (x == 9) {
+                    x = 14;
+                } else if (x == 17) {
+                    x = 23;
+                }
+                checkSpot[x] = false;
+            }
+        }
+        return checkSpot;
+    }
+
+    // Checks if opponents two in a row can become a four in a row, is not already blocked, if I cant win on this turn. If all true , return true.
+    public boolean worthBlocking(Location origin, Location check, Board board, int x) {
+        int inRow = 3;
+        boolean blocked = false;
+        boolean[] checkSpot1 = checkSpot(check.getCol(), check.getRow(), check.getSheet());
+        boolean[] checkSpot2 = checkSpot(origin.getCol(), origin.getRow(), origin.getSheet());
+        if(checkSpot1[x]) {
+            check = new Location(check.getCol(), check.getRow(), check.getSheet());
+            Location a = checkSpotAnalyzer(x, check);
+            inRow++;
+            if(board.getLocation(a) == getLetter()) {
+                blocked = true;
+            }
+        }
+        else if(checkSpot2[25-x]) {
+            origin = new Location(origin.getCol(), origin.getRow(), origin.getSheet());
+            Location a = checkSpotAnalyzer(x, origin);
+            inRow++;
+            if(board.getLocation(a) == getLetter()) {
+                blocked = true;
+            }
+        }
+        if(blocked || inRow < 4 || winnable(board) != null) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    // Can I win on this turn.
+    public Location winnable(Board board) {
+        for(int c = 0 ; c < 4 ; c++) {
+            for(int r = 0 ; r < 4 ; r++) {
+                for(int d = 0 ; d < 4 ; d++) {
+                    if(board.getLocation(new Location(c, r, d)) == getLetter()) {
+                        for(int a = 0 ; a < 26 ; a++) {
+                            boolean[] checkSpot1 = checkSpot(c, r, d);
+                            if(checkSpot1[a]) {
+
+                                if(board.getLocation(checkSpotAnalyzer(a, new Location(c, r, d))) == getLetter()) {
+                                    Location next = checkSpotAnalyzer(a, new Location(c, r, d));
+                                    checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+                                    if(checkSpot1[a]) {
+                                        if(board.getLocation(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()))) == getLetter()) {
+                                            next = checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()));
+                                            checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+                                            boolean[] checkSpot2 = checkSpot(c, r, d);
+                                            if(checkSpot1[a] && board.isEmpty(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet())))) {
+                                                return checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()));
+                                            }
+                                            else if(checkSpot2[25-a] && board.isEmpty(checkSpotAnalyzer(25-a, new Location(c, r, d)))) {
+                                                return checkSpotAnalyzer(25-a, new Location(c, r, d));
+                                            }
+                                        }
+                                        else if(board.isEmpty(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet())))) {
+                                            next = checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()));
+                                            checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+                                            if(checkSpot1[a] && board.getLocation(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()))) == getLetter()) {
+                                                return next;
+                                            }
+                                        }
+                                    }
+                                }
+                                else if(board.isEmpty(checkSpotAnalyzer(a, new Location(c, r, d)))) {
+                                    Location next = checkSpotAnalyzer(a, new Location(c, r, d));
+                                    checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+                                    if(checkSpot1[a]) {
+                                        if (board.getLocation(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()))) == getLetter()) {
+                                            next = checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()));
+                                            checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+                                            if(checkSpot1[a] && board.getLocation(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()))) == getLetter()) {
+                                                return checkSpotAnalyzer(a, new Location(c, r, d));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    // Can opponent win on the next turn.
+    public Location losable(Board board) {
+        for(int c = 0 ; c < 4 ; c++) {
+            for(int r = 0 ; r < 4 ; r++) {
+                for(int d = 0 ; d < 4 ; d++) {
+                    if(board.getLocation(new Location(c, r, d)) != getLetter() && !board.isEmpty(new Location(c, r, d))) {
+                        for(int a = 0 ; a < 26 ; a++) {
+                            boolean[] checkSpot1 = checkSpot(c, r, d);
+                            if(checkSpot1[a]) {
+                                if(board.getLocation(checkSpotAnalyzer(a, new Location(c, r, d))) != getLetter() && !board.isEmpty(checkSpotAnalyzer(a, new Location(c, r, d)))) {
+                                    Location next = checkSpotAnalyzer(a, new Location(c, r, d));
+                                    checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+                                    if(checkSpot1[a]) {
+                                        if(board.getLocation(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()))) != getLetter() && !board.isEmpty(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet())))) {
+                                            next = checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()));
+                                            checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+                                            boolean[] checkSpot2 = checkSpot(c, r, d);
+                                            if(checkSpot1[a] && board.isEmpty(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet())))) {
+                                                return checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()));
+                                            }
+                                            else if(checkSpot2[25-a] && board.isEmpty(checkSpotAnalyzer(25-a, new Location(c, r, d)))) {
+                                                return checkSpotAnalyzer(25-a, new Location(c, r, d));
+                                            }
+                                        }
+                                        else if(board.isEmpty(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet())))) {
+                                            next = checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()));
+                                            checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+                                            if(checkSpot1[a] && board.getLocation(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()))) != getLetter() && !board.isEmpty(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet())))) {
+                                                return next;
+                                            }
+                                        }
+                                    }
+                                }
+                                else if(board.isEmpty(checkSpotAnalyzer(a, new Location(c, r, d)))) {
+                                    Location next = checkSpotAnalyzer(a, new Location(c, r, d));
+                                    checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+                                    if(checkSpot1[a]) {
+                                        if (board.getLocation(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()))) != getLetter() && !board.isEmpty(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet())))) {
+                                            next = checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()));
+                                            checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+                                            if(checkSpot1[a] && board.getLocation(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()))) != getLetter() && !board.isEmpty(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet())))) {
+                                                return checkSpotAnalyzer(a, new Location(c, r, d));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public Location gradeBoardHighest(Board board)
+    {
+        Location l;
+        Location greatest = new Location(0, 0, 0);
+        Random rand = new Random();
+        ArrayList<Integer> test = new ArrayList<>();
+        int[][][] compare = new int[4][4][4];
+
+        int count = 0;
+        for (int x = 0; x < board.getData().length; x++)
+        {
+            for (int y = 0; y < board.getData()[0].length; y++)
+            {
+                for (int z = 0 ; z < board.getData()[0][0].length; z++) {
+                    if (board.getData()[x][y][z] != '-')
+                    {
+                        count++;
+                    }
+                }
+            }
+        }
+        if (count == 0)
+        {
+            return new Location(1,2,3);
+        }
+
+        for (int x = 0; x < board.getData().length; x++)
+        {
+            for (int y = 0; y < board.getData()[0].length; y++)
+            {
+                for (int z = 0 ; z < board.getData()[0][0].length; z++) {
+                    if (board.getData()[x][y][z] == 'X' || board.getData()[x][y][z] == 'O')
+                    {
+                        continue;
+                    }
+                    compare[x][y][z] = gradeMove(new Location(x, y, z), board, getLetter(), 'O');
+                    test.add(compare[x][y][z]);
+                }
+            }
+        }
+
+        for (int x = 0; x < compare.length; x++)
+        {
+            for (int y = 0; y < compare[0].length; y++)
+            {
+                for (int z = 0 ; z < compare[0][0].length; z++)
+                {
+                    if (compare[x][y][z] >= compare[greatest.getCol()][greatest.getRow()][greatest.getSheet()] && (board.getData()[x][y][z] != 'X' || board.getData()[x][y][z] != 'O'))
+                    {
+                        greatest = new Location(x, y, z);
+                    }
+                }
+            }
+        }
+        l = greatest;
+        return l;
+    }
+
+    public int gradeMove(Location l, Board board, char player, char opponent)
+    {
+        if (board.getData()[l.getSheet()][l.getRow()][l.getCol()] == '-')
+        {
+            int my4s = 0;
+            int my3s = 0;
+            int my2s = 0;
+            int count = 1;
+            int totalScore = 0;
+
+            for (int i = 0; i < board.numCols(); i++) {
+                if (board.getData()[l.getSheet()][l.getRow()][i] == player) {
+                    count++;
+                } else if (board.getData()[l.getSheet()][l.getRow()][i] == opponent) {
+                    count = 0;
+                    break;
+                }
+
+            }
+            if (count == 4)
+            {
+                my4s++;
+            }
+            if (count == 3)
+            {
+                my3s++;
+            }
+            if (count == 2)
+            {
+                my2s++;
+            }
+            for (int i = 0; i < board.numRows(); i++) {
+                if (board.getData()[l.getSheet()][i][l.getCol()] == player) {
+                    count++;
+                    my2s++;
+                } else if (board.getData()[l.getSheet()][i][l.getCol()] == opponent) {
+                    count = 0;
+                    break;
+                }
+
+            }
+            if (count == 4)
+            {
+                my4s++;
+            }
+            if (count == 3)
+            {
+                my3s++;
+            }
+            if (count == 2)
+            {
+                my2s++;
+            }
+            for (int i = 0; i < board.numSheets(); i++) {
+                if (board.getData()[i][l.getRow()][l.getCol()] == player) {
+                    count++;
+
+                } else if (board.getData()[i][l.getRow()][l.getCol()] == opponent) {
+                    count = 0;
+                    break;
+                }
+
+            }
+
+            if (count == 4)
+            {
+                my4s++;
+            }
+            if (count == 3)
+            {
+                my3s++;
+            }
+            if (count == 2)
+            {
+                my2s++;
+            }
+           // System.out.println("-------------------" + my4s);
+
+            return (my4s * 1000) + (my3s * 100) + (my2s * 10);
+        }
+        else
+        {
+            return -1000;
+        }
+    }
+
+}

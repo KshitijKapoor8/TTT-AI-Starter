@@ -254,6 +254,18 @@ public class Test_AI_3 implements PlayerInt
 
             }
 
+            if (count1 == 4 || count2 == 4 || count3 == 4)
+            {
+                my4s++;
+            }
+            if (count1 == 3 || count2 == 3 || count3 == 3)
+            {
+                my3s++;
+            }
+            if (count1 == 2 || count2 == 2 || count3 == 2)
+            {
+                my2s++;
+            }
             System.out.println(my4s);
 
             if (my4s >= 1)
