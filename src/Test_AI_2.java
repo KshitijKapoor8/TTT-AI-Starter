@@ -338,6 +338,26 @@ public class Test_AI_2 implements PlayerInt
 												return checkSpotAnalyzer(25-a, new Location(c, r, d));
 											}
 										}
+										else if(board.isEmpty(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet())))) {
+											next = checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()));
+											checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+											if(checkSpot1[a] && board.getLocation(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()))) == getLetter()) {
+												return next;
+											}
+										}
+									}
+								}
+								else if(board.isEmpty(checkSpotAnalyzer(a, new Location(c, r, d)))) {
+									Location next = checkSpotAnalyzer(a, new Location(c, r, d));
+									checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+									if(checkSpot1[a]) {
+										if (board.getLocation(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()))) == getLetter()) {
+											next = checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()));
+											checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+											if(checkSpot1[a] && board.getLocation(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()))) == getLetter()) {
+												return checkSpotAnalyzer(a, new Location(c, r, d));
+											}
+										}
 									}
 								}
 							}
@@ -370,6 +390,26 @@ public class Test_AI_2 implements PlayerInt
 											}
 											else if(checkSpot2[25-a] && board.isEmpty(checkSpotAnalyzer(25-a, new Location(c, r, d)))) {
 												return checkSpotAnalyzer(25-a, new Location(c, r, d));
+											}
+										}
+										else if(board.isEmpty(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet())))) {
+											next = checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()));
+											checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+											if(checkSpot1[a] && board.getLocation(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()))) != getLetter() && !board.isEmpty(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet())))) {
+												return next;
+											}
+										}
+									}
+								}
+								else if(board.isEmpty(checkSpotAnalyzer(a, new Location(c, r, d)))) {
+									Location next = checkSpotAnalyzer(a, new Location(c, r, d));
+									checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+									if(checkSpot1[a]) {
+										if (board.getLocation(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()))) != getLetter() && !board.isEmpty(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet())))) {
+											next = checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()));
+											checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
+											if(checkSpot1[a] && board.getLocation(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet()))) != getLetter() && !board.isEmpty(checkSpotAnalyzer(a, new Location(next.getCol(), next.getRow(), next.getSheet())))) {
+												return checkSpotAnalyzer(a, new Location(c, r, d));
 											}
 										}
 									}
