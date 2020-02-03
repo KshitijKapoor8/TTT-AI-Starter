@@ -11,7 +11,7 @@ public class Test_AI_2 implements PlayerInt
 	// Post: 	sets the name to "Random AI" and the letter to the letter received
 	Test_AI_2(char letter)
 	{
-		name 		= "Shield Turtle";
+		name 		= "The Great Wall of Trump";
 		this.letter	= letter;
 	}
 
@@ -102,7 +102,6 @@ public class Test_AI_2 implements PlayerInt
 		Location output = null;
 		if(spot == 0) {
 			output = new Location(origin.getCol()-1,origin.getRow()-1,origin.getSheet()+1);
-
 		}
 		else if(spot == 1) {
 			output = new Location(origin.getCol(),origin.getRow()-1,origin.getSheet()+1);
@@ -268,8 +267,6 @@ public class Test_AI_2 implements PlayerInt
 						for(int a = 0 ; a < 26 ; a++) {
 							boolean[] checkSpot1 = checkSpot(c, r, d);
 							if(checkSpot1[a]) {
-								System.out.println(a);
-								System.out.println(new Location(c, r, d).toString());
 								if(board.getLocation(checkSpotAnalyzer(a, new Location(c, r, d))) == getLetter()) {
 									Location next = checkSpotAnalyzer(a, new Location(c, r, d));
 									checkSpot1 = checkSpot(next.getCol(), next.getRow(), next.getSheet());
@@ -369,4 +366,6 @@ public class Test_AI_2 implements PlayerInt
 		}
 		return null;
 	}
+
+
 }
