@@ -11,7 +11,7 @@ public class Test_AI_2 implements PlayerInt
 	// Post: 	sets the name to "Random AI" and the letter to the letter received
 	Test_AI_2(char letter)
 	{
-		name 		= "The Great Wall of Trump";
+		name 		= "The Great Wall of Turtle";
 		this.letter	= letter;
 	}
 
@@ -41,6 +41,7 @@ public class Test_AI_2 implements PlayerInt
 										if(board.getLocation(checkSpotAnalyzer(x,new Location(c, r, d))) != getLetter() && !board.isEmpty(checkSpotAnalyzer(x,new Location(c, r, d)))) {
 											Location origin = checkSpotAnalyzer(x,new Location(c, r, d));
 											boolean[] checkSpot1 = checkSpot(origin.getCol(), origin.getRow(), origin.getSheet());
+
 											if(checkSpot1[x] && board.isEmpty(checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())))) {
 												if(worthBlocking(new Location(c, r, d), checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())), board, x)) {
 													l = checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet()));
@@ -367,5 +368,42 @@ public class Test_AI_2 implements PlayerInt
 		return null;
 	}
 
+	public boolean blocked(Location check, Board board, int a) {
 
+		return false;
+	}
+
+	public boolean canBeFour(Location check, int a) {
+		int inRow = 1;
+		Location origin = check;
+		boolean[] checkSpot1 = checkSpot(check.getCol(), check.getRow(), check.getSheet());
+		boolean[] checkSpot2 = checkSpot(check.getCol(), check.getRow(), check.getSheet());
+		if(checkSpot1[a]) {
+			inRow++;
+			check = checkSpotAnalyzer(a, check);
+			checkSpot1 = checkSpot(check.getCol(), check.getRow(), check.getSheet());
+			if(checkSpot1[a]) {
+				inRow++;
+				check = checkSpotAnalyzer(a, check);
+				checkSpot1 = checkSpot(check.getCol(), check.getRow(), check.getSheet());
+				if(checkSpot1[a]) {
+					inRow++;
+				}
+			}
+		}
+		if(checkSpot2[25-a] && inRow != 4) {
+			inRow++;
+			check = checkSpotAnalyzer(25-a, origin);
+			checkSpot2 = checkSpot(check.getCol(), check.getRow(), check.getSheet());
+			if(checkSpot2[25-a]) {
+				inRow++;
+				check = checkSpotAnalyzer(25-a, check);
+				checkSpot2 = checkSpot(check.getCol(), check.getRow(), check.getSheet());
+				if(checkSpot2[25-a]) {
+					inRow++;
+				}
+			}
+		}
+		return inRow == 4;
+	}
 }
