@@ -82,12 +82,19 @@ public class Test_AI_5 implements PlayerInt
                 }
                 else {
                     //l = new Location(rand.nextInt(4), rand.nextInt(4), rand.nextInt(4));
-                    Location temp = gradeBoardHighest(board);
-                    System.out.println(gradeMove(temp, board, getLetter(), 'O'));
+                    Location temp;
+                    if (getLetter() == 'X') {
+                        temp = gradeBoardHighest(board);
+                        System.out.println(gradeMove(temp, board, getLetter(), 'O'));
+                    }
+                    else {
+                        temp = gradeBoardHighest(board);
+                        System.out.println(gradeMove(temp, board, getLetter(), 'X'));
+                    }
                     l = temp;
                 }
             }
-        }while(!board.isEmpty(l));
+        } while (!board.isEmpty(l));
         return l;
     }
 
@@ -386,7 +393,6 @@ public class Test_AI_5 implements PlayerInt
         Random rand = new Random();
         ArrayList<Integer> test = new ArrayList<>();
         int[][][] compare = new int[4][4][4];
-
         int count = 0;
         for (int x = 0; x < board.getData().length; x++)
         {
@@ -414,7 +420,11 @@ public class Test_AI_5 implements PlayerInt
                     {
                         continue;
                     }
-                    compare[x][y][z] = gradeMove(new Location(x, y, z), board, getLetter(), 'O');
+                    if (getLetter() == 'X')
+                        compare[x][y][z] = gradeMove(new Location(x, y, z), board, getLetter(), 'O');
+                    else
+                        compare[x][y][z] = gradeMove(new Location(x, y, z), board, getLetter(), 'X');
+
                     test.add(compare[x][y][z]);
                 }
             }
@@ -519,7 +529,7 @@ public class Test_AI_5 implements PlayerInt
         }
         else
         {
-            return -1000;
+            return -1;
         }
     }
 
