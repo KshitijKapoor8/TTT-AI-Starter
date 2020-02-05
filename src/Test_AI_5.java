@@ -33,6 +33,49 @@ public class Test_AI_5 implements PlayerInt
         Random rand = new Random();
         do
         {
+            for(int r = 0 ; r < board.numRows() ; r++) {
+                for(int c = 0 ; c < board.numCols() ; c++) {
+                    for(int d = 0 ; d < board.numSheets() ; d++) {
+                        if(board.getLocation(new Location(c, r, d)) != getLetter() && !board.isEmpty(new Location(c, r, d))) {
+                            checkSpot = checkSpot(c, r, d);
+                            for (int x = 0 ; x < checkSpot.length ; x++) {
+                                if(checkSpot[x]) {
+                                    if(board.getLocation(checkSpotAnalyzer(x,new Location(c, r, d))) != getLetter() && !board.isEmpty(checkSpotAnalyzer(x,new Location(c, r, d)))) {
+                                        Location origin = checkSpotAnalyzer(x,new Location(c, r, d));
+                                        boolean[] checkSpot1 = checkSpot(origin.getCol(), origin.getRow(), origin.getSheet());
+
+                                        if(checkSpot1[x] && board.isEmpty(checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())))) {
+                                            if(worthBlocking(new Location(c, r, d), checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())), board, x)) {
+
+                                                l = checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet()));
+                                                done = true;
+                                                break;
+                                            }
+                                        }
+                                        else if(checkSpot1[25-x] && board.isEmpty(checkSpotAnalyzer(25-x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())))) {
+                                            if(worthBlocking(new Location(c, r, d), checkSpotAnalyzer(25-x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())), board, 25-x)) {
+
+                                                l = checkSpotAnalyzer(25 - x, new Location(origin.getCol(), origin.getRow(), origin.getSheet()));
+                                                done = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if(done) {
+                            break;
+                        }
+                    }
+                    if(done) {
+                        break;
+                    }
+                }
+                if(done) {
+                    break;
+                }
+            }
             if (winnable(board) == null && losable(board) == null)
             {
                 Location temp;
@@ -59,74 +102,7 @@ public class Test_AI_5 implements PlayerInt
                     System.out.println("At point losable" + l);
                 }
             }
-//            if(l == null || !board.isEmpty(l) || losable(board) != null) {
-//                if(winnable(board) != null) {
-//                    l = winnable(board);
-//                }
-//                else if(losable(board) != null) {
-//
-//                    l = losable(board);
-//                }
-//                else {
-//                    //l = new Location(rand.nextInt(4), rand.nextInt(4), rand.nextInt(4));
-//                    Location temp;
-//                    if (getLetter() == 'X') {
-//                        temp = gradeBoardHighest(board);
-//                        System.out.println(gradeMove(temp, board, getLetter(), 'O') + " " + temp);
-//                    }
-//                    else {
-//                        temp = gradeBoardHighest(board);
-//                        System.out.println(gradeMove(temp, board, getLetter(), 'X') + " " + temp);
-//                    }
-//                    l = temp;
-//                }
-//            }
-            // Checks for two
-//            for(int r = 0 ; r < board.numRows() ; r++) {
-//                for(int c = 0 ; c < board.numCols() ; c++) {
-//                    for(int d = 0 ; d < board.numSheets() ; d++) {
-//                        if(board.getLocation(new Location(c, r, d)) != getLetter() && !board.isEmpty(new Location(c, r, d))) {
-//                            checkSpot = checkSpot(c, r, d);
-//                            for (int x = 0 ; x < checkSpot.length ; x++) {
-//                                if(checkSpot[x]) {
-//                                    if(board.getLocation(checkSpotAnalyzer(x,new Location(c, r, d))) != getLetter() && !board.isEmpty(checkSpotAnalyzer(x,new Location(c, r, d)))) {
-//                                        Location origin = checkSpotAnalyzer(x,new Location(c, r, d));
-//                                        boolean[] checkSpot1 = checkSpot(origin.getCol(), origin.getRow(), origin.getSheet());
-//
-//                                        if(checkSpot1[x] && board.isEmpty(checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())))) {
-//                                            if(worthBlocking(new Location(c, r, d), checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())), board, x)) {
-//
-//                                                l = checkSpotAnalyzer(x, new Location(origin.getCol(), origin.getRow(), origin.getSheet()));
-//                                                done = true;
-//                                                break;
-//                                            }
-//                                        }
-//                                        else if(checkSpot1[25-x] && board.isEmpty(checkSpotAnalyzer(25-x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())))) {
-//                                            if(worthBlocking(new Location(c, r, d), checkSpotAnalyzer(25-x, new Location(origin.getCol(), origin.getRow(), origin.getSheet())), board, 25-x)) {
-//
-//                                                l = checkSpotAnalyzer(25 - x, new Location(origin.getCol(), origin.getRow(), origin.getSheet()));
-//                                                done = true;
-//                                                break;
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        if(done) {
-//                            break;
-//                        }
-//                    }
-//                    if(done) {
-//                        break;
-//                    }
-//                }
-//                if(done) {
-//                    break;
-//                }
-//            }
-
-//            done=false;
+            done=false;
         } while (!board.isEmpty(l));
         return l;
     }
@@ -469,7 +445,7 @@ public class Test_AI_5 implements PlayerInt
             {
                 for (int z = 0 ; z < 4; z++)
                 {
-                    if (compare[x][y][z] >= compare[greatest.getSheet()][greatest.getRow()][greatest.getCol()] && (board.getData()[z][y][x] != 'X' || board.getData()[z][y][x] != 'O'))
+                    if (compare[x][y][z] >= compare[greatest.getSheet()][greatest.getRow()][greatest.getCol()] && (board.getData()[z][y][x] != 'X' || board.getData()[z][y][x] != 'O') && board.isEmpty(new Location(x, y, z)))
                     {
                         greatest = new Location(x, y, z);
                     }
@@ -516,6 +492,8 @@ public class Test_AI_5 implements PlayerInt
             if (count == 1) {
                 my1s++;
             }
+            count = 1;
+
             for (int i = 0; i < board.numRows(); i++) {
                 if (board.getData()[l.getSheet()][i][l.getCol()] == player) {
                     count++;
@@ -541,6 +519,7 @@ public class Test_AI_5 implements PlayerInt
             if (count == 1) {
                 my1s++;
             }
+            count = 1;
             for (int i = 0; i < board.numSheets(); i++) {
                 if (board.getData()[i][l.getRow()][l.getCol()] == player) {
                     count++;
@@ -567,9 +546,253 @@ public class Test_AI_5 implements PlayerInt
             if (count == 1) {
                 my1s++;
             }
+            count = 1;
+            for (int i = 0; i < board.numSheets(); i++) {
+                if (board.getData()[i][i][l.getCol()] == player) {
+                    count++;
+
+                } else if (board.getData()[i][i][l.getCol()] == opponent) {
+                    count = 0;
+                    break;
+                }
+
+            }
+            if (count == 4)
+            {
+                my4s++;
+            }
+            if (count == 3)
+            {
+                my3s++;
+            }
+            if (count == 2)
+            {
+                my2s++;
+            }
+            if (count == 1) {
+                my1s++;
+            }
+            count = 1;
+            for (int i = 0; i < board.numSheets(); i++) {
+                if (board.getData()[i][l.getRow()][i] == player) {
+                    count++;
+
+                } else if (board.getData()[i][l.getRow()][i] == opponent) {
+                    count = 0;
+                    break;
+                }
+
+            }
+            if (count == 4)
+            {
+                my4s++;
+            }
+            if (count == 3)
+            {
+                my3s++;
+            }
+            if (count == 2)
+            {
+                my2s++;
+            }
+            if (count == 1) {
+                my1s++;
+            }
+            count = 1;
+            for (int i = 0; i < board.numSheets(); i++) {
+                if (board.getData()[i][i][i] == player) {
+                    count++;
+
+                } else if (board.getData()[i][i][i] == opponent) {
+                    count = 0;
+                    break;
+                }
+
+            }
+            if (count == 4)
+            {
+                my4s++;
+            }
+            if (count == 3)
+            {
+                my3s++;
+            }
+            if (count == 2)
+            {
+                my2s++;
+            }
+            if (count == 1) {
+                my1s++;
+            }
+            //---------------------------------------------
+            count = 1;
+            int op4s = 0;
+            int op3s = 0;
+            int op2s = 0;
+            int op1s = 0;
+            count = 1;
+
+
+            for (int i = 0; i < board.numCols(); i++) {
+                if (board.getData()[l.getSheet()][l.getRow()][i] == opponent) {
+                    count++;
+                } else if (board.getData()[l.getSheet()][l.getRow()][i] == player) {
+                    count = 0;
+                    break;
+                }
+
+            }
+            if (count == 4)
+            {
+                op4s++;
+            }
+            if (count == 3)
+            {
+                op3s++;
+            }
+            if (count == 2)
+            {
+                op2s++;
+            }
+            if (count == 1) {
+                op1s++;
+            }
+            count = 1;
+
+            for (int i = 0; i < board.numRows(); i++) {
+                if (board.getData()[l.getSheet()][i][l.getCol()] == opponent) {
+                    count++;
+                    op2s++;
+                } else if (board.getData()[l.getSheet()][i][l.getCol()] == player) {
+                    count = 0;
+                    break;
+                }
+
+            }
+            if (count == 4)
+            {
+                op4s++;
+            }
+            if (count == 3)
+            {
+                op3s++;
+            }
+            if (count == 2)
+            {
+                op2s++;
+            }
+            if (count == 1) {
+                op1s++;
+            }
+            count = 1;
+            for (int i = 0; i < board.numSheets(); i++) {
+                if (board.getData()[i][l.getRow()][l.getCol()] == opponent) {
+                    count++;
+
+                } else if (board.getData()[i][l.getRow()][l.getCol()] == player) {
+                    count = 0;
+                    break;
+                }
+
+            }
+
+            if (count == 4)
+            {
+                op4s++;
+            }
+            if (count == 3)
+            {
+                op3s++;
+            }
+            if (count == 2)
+            {
+                op2s++;
+            }
+            if (count == 1) {
+                op1s++;
+            }
+            count = 1;
+            for (int i = 0; i < board.numSheets(); i++) {
+                if (board.getData()[i][i][l.getCol()] == opponent) {
+                    count++;
+
+                } else if (board.getData()[i][i][l.getCol()] == player) {
+                    count = 0;
+                    break;
+                }
+
+            }
+            if (count == 4)
+            {
+                op4s++;
+            }
+            if (count == 3)
+            {
+                op3s++;
+            }
+            if (count == 2)
+            {
+                op2s++;
+            }
+            if (count == 1) {
+                op1s++;
+            }
+            count = 1;
+            for (int i = 0; i < board.numSheets(); i++) {
+                if (board.getData()[i][l.getRow()][i] == opponent) {
+                    count++;
+
+                } else if (board.getData()[i][l.getRow()][i] == player) {
+                    count = 0;
+                    break;
+                }
+
+            }
+            if (count == 4)
+            {
+                op4s++;
+            }
+            if (count == 3)
+            {
+                op3s++;
+            }
+            if (count == 2)
+            {
+                op2s++;
+            }
+            if (count == 1) {
+                op1s++;
+            }
+            count = 1;
+            for (int i = 0; i < board.numSheets(); i++) {
+                if (board.getData()[i][i][i] == opponent) {
+                    count++;
+
+                } else if (board.getData()[i][i][i] == player) {
+                    count = 0;
+                    break;
+                }
+
+            }
+            if (count == 4)
+            {
+                op4s++;
+            }
+            if (count == 3)
+            {
+                op3s++;
+            }
+            if (count == 2)
+            {
+                op2s++;
+            }
+            if (count == 1) {
+                op1s++;
+            }
+            count = 1;
            // System.out.println("-------------------" + my4s);
 
-            return (my4s * 1000) + (my3s * 100) + (my2s * 10) + (my1s * 3);
+            return ((my4s - -op4s) * 1000) + ((my3s - -op3s) * 90) + ((my2s- -op2s) * 60) + ((my1s - op1s) * 20);
         }
         else
         {
