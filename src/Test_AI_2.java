@@ -368,9 +368,30 @@ public class Test_AI_2 implements PlayerInt
 		return null;
 	}
 
-	public boolean blocked(Location check, Board board, int a) {
+	public Location dualWin(Board board) {
+		for(int c = 0 ; c < 4 ; c++) {
+			for(int r = 0 ; r < 4 ; r++) {
+				for(int d = 0 ; d < 4 ; d++) {
+					int threeRows = 0;
+					Location check = new Location(c, r, d);
+					Location origin = check;
+					if(board.isEmpty(check)) {
+						boolean[] checkSpot1 = checkSpot(c, r, d);
+						for(int a = 0 ; a < 26 ; a++) {
+							if(checkSpot1[a]) {
+								if (canBeFour(check, a)) {
 
-		return false;
+								}
+							}
+						}
+					}
+					if(threeRows >= 2) {
+						return origin;
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	public boolean canBeFour(Location check, int a) {
