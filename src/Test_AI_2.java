@@ -95,13 +95,11 @@ public class Test_AI_2 implements PlayerInt
 
 	// Pre:		method is called
 	// Post: 	returns the name of the player
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 	
-	public PlayerInt freshCopy()
-	{
+	public PlayerInt freshCopy() {
 		return new Test_AI_2(letter);
 	}
 
