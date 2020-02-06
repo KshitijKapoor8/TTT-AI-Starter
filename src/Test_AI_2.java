@@ -72,12 +72,18 @@ public class Test_AI_2 implements PlayerInt
 						break;
 					}
 			}
-			if(l == null || !board.isEmpty(l) || losable(board) != null) {
+			if(l == null || !board.isEmpty(l) || losable(board) != null || dualWin(board) != null || dualLose(board) != null) {
 				if(winnable(board) != null) {
 					l = winnable(board);
 				}
 				else if(losable(board) != null) {
 					l = losable(board);
+				}
+				else if(dualWin(board) != null) {
+					l = dualWin(board);
+				}
+				else if(dualLose(board) != null) {
+					l = dualLose(board);
 				}
 				else {
 					l = new Location(rand.nextInt(4), rand.nextInt(4), rand.nextInt(4));
@@ -380,7 +386,69 @@ public class Test_AI_2 implements PlayerInt
 						for(int a = 0 ; a < 26 ; a++) {
 							if(checkSpot1[a]) {
 								if (canBeFour(check, a)) {
+									boolean[] cS = checkSpot(check.getCol(), check.getRow(), check.getSheet());
+									do {
+										check = checkSpotAnalyzer(a, check);
+										cS = checkSpot(check.getCol(), check.getRow(), check.getSheet());
+									}while(cS[a]);
+									int inRow = 0;
+									for(int x = 0 ; x < 4 ; x++) {
+										if(board.getLocation(check) == getLetter()) {
+											inRow++;
+										}
+										else if(board.getLocation(check) != getLetter() && !board.isEmpty(check)) {
+											inRow--;
+										}
+										check = checkSpotAnalyzer(25-a, check);
+									}
+									if(inRow == 2) {
+										threeRows++;
+									}
+									check = origin;
+								}
+							}
+						}
+					}
+					if(threeRows >= 2) {
+						return origin;
+					}
+				}
+			}
+		}
+		return null;
+	}
 
+	public Location dualLose(Board board) {
+		for(int c = 0 ; c < 4 ; c++) {
+			for(int r = 0 ; r < 4 ; r++) {
+				for(int d = 0 ; d < 4 ; d++) {
+					int threeRows = 0;
+					Location check = new Location(c, r, d);
+					Location origin = check;
+					if(board.isEmpty(check)) {
+						boolean[] checkSpot1 = checkSpot(c, r, d);
+						for(int a = 0 ; a < 26 ; a++) {
+							if(checkSpot1[a]) {
+								if (canBeFour(check, a)) {
+									boolean[] cS = checkSpot(check.getCol(), check.getRow(), check.getSheet());
+									do {
+										check = checkSpotAnalyzer(a, check);
+										cS = checkSpot(check.getCol(), check.getRow(), check.getSheet());
+									}while(cS[a]);
+									int inRow = 0;
+									for(int x = 0 ; x < 4 ; x++) {
+										if(board.getLocation(check) != getLetter() && !board.isEmpty(check)) {
+											inRow++;
+										}
+										else if(board.getLocation(check) == getLetter()) {
+											inRow--;
+										}
+										check = checkSpotAnalyzer(25-a, check);
+									}
+									if(inRow == 2) {
+										threeRows++;
+									}
+									check = origin;
 								}
 							}
 						}
