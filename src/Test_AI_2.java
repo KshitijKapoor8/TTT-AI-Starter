@@ -22,6 +22,7 @@ public class Test_AI_2 implements PlayerInt
 
 	// Pre:		method is called
 	// Post: 	returns the Location where the player wants to move
+	// Checks for two in a rows and returns the next move.
 	public Location getMove(Board board)
 	{
 		boolean[] checkSpot = new boolean[26];
@@ -103,7 +104,9 @@ public class Test_AI_2 implements PlayerInt
 		return new Test_AI_2(letter);
 	}
 
+	// returns location for specific spot.
 	public Location checkSpotAnalyzer(int spot, Location origin) {
+		// Origin is the one that it checks all the spots around.
 		Location output = null;
 		if(spot == 0) {
 			output = new Location(origin.getCol()-1,origin.getRow()-1,origin.getSheet()+1);
@@ -235,6 +238,7 @@ public class Test_AI_2 implements PlayerInt
 		return checkSpot;
 	}
 
+	// Checks if opponents two in a row can become a four in a row, is not already blocked, if I cant win on this turn. If all true , return true.
 	public boolean worthBlocking(Location origin, Location check, Board board, int x) {
 		int inRow = 3;
 		boolean blocked = false;
@@ -264,6 +268,7 @@ public class Test_AI_2 implements PlayerInt
 		}
 	}
 
+	// Can I win on this turn.
 	public Location winnable(Board board) {
 		for(int c = 0 ; c < 4 ; c++) {
 			for(int r = 0 ; r < 4 ; r++) {
@@ -318,6 +323,7 @@ public class Test_AI_2 implements PlayerInt
 		return null;
 	}
 
+	// Can opponent win on the next turn.
 	public Location losable(Board board) {
 		for(int c = 0 ; c < 4 ; c++) {
 			for(int r = 0 ; r < 4 ; r++) {
