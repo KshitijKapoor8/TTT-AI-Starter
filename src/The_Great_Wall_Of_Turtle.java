@@ -1,15 +1,14 @@
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Test_AI_2 implements PlayerInt
+public class The_Great_Wall_Of_Turtle implements PlayerInt
 {
 	private char letter;
 	private String name;
 
 	// Pre:		receives a char letter
 	// Post: 	sets the name to "Random AI" and the letter to the letter received
-	Test_AI_2(char letter)
+	The_Great_Wall_Of_Turtle(char letter)
 	{
 		name 		= "The Great Wall of Turtle";
 		this.letter	= letter;
@@ -72,7 +71,7 @@ public class Test_AI_2 implements PlayerInt
 						break;
 					}
 			}
-			if(l == null || !board.isEmpty(l) || losable(board) != null || dualWin(board) != null || dualLose(board) != null) {
+			if(l == null || !board.isEmpty(l) || losable(board) != null || dualWin(board) != null || dualLose(board) != null || triplePrep(board) != null) {
 				if(winnable(board) != null) {
 					l = winnable(board);
 				}
@@ -84,6 +83,9 @@ public class Test_AI_2 implements PlayerInt
 				}
 				else if(dualLose(board) != null) {
 					l = dualLose(board);
+				}
+				else if(triplePrep(board) != null) {
+					l = triplePrep(board);
 				}
 				else {
 					l = new Location(rand.nextInt(4), rand.nextInt(4), rand.nextInt(4));
@@ -100,7 +102,7 @@ public class Test_AI_2 implements PlayerInt
 	}
 	
 	public PlayerInt freshCopy() {
-		return new Test_AI_2(letter);
+		return new The_Great_Wall_Of_Turtle(letter);
 	}
 
 	public Location checkSpotAnalyzer(int spot, Location origin) {
@@ -452,6 +454,51 @@ public class Test_AI_2 implements PlayerInt
 						}
 					}
 					if(threeRows >= 2) {
+						return origin;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	public Location triplePrep(Board board) {
+		for(int c = 0 ; c < 4 ; c++) {
+			for(int r = 0 ; r < 4 ; r++) {
+				for(int d = 0 ; d < 4 ; d++) {
+					int twoRows = 0;
+					Location check = new Location(c, r, d);
+					Location origin = check;
+					if(board.isEmpty(check)) {
+						boolean[] checkSpot1 = checkSpot(c, r, d);
+						for(int a = 0 ; a < 26 ; a++) {
+							if(checkSpot1[a]) {
+								if (canBeFour(check, a)) {
+									boolean[] cS = checkSpot(check.getCol(), check.getRow(), check.getSheet());
+									do {
+										check = checkSpotAnalyzer(a, check);
+										cS = checkSpot(check.getCol(), check.getRow(), check.getSheet());
+									}while(cS[a]);
+									int inRow = 0;
+									for(int x = 0 ; x < 4 ; x++) {
+										if(board.getLocation(check) == getLetter()) {
+											inRow++;
+										}
+										else if(board.getLocation(check) != getLetter() && !board.isEmpty(check)) {
+											inRow = 0;
+											break;
+										}
+										check = checkSpotAnalyzer(25-a, check);
+									}
+									if(inRow == 1) {
+										twoRows++;
+									}
+									check = origin;
+								}
+							}
+						}
+					}
+					if(twoRows >= 3) {
 						return origin;
 					}
 				}
