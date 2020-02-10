@@ -1,10 +1,14 @@
+//Ian Chichester & Kshitij Kapoor
+//Period 4
 import java.util.Arrays;
 import java.util.Random;
 
 public class The_Great_Wall_Of_Turtle implements PlayerInt
 {
+
 	private char letter;
 	private String name;
+	private Location change;
 
 	// Pre:		receives a char letter
 	// Post: 	sets the name to "Random AI" and the letter to the letter received
@@ -72,7 +76,7 @@ public class The_Great_Wall_Of_Turtle implements PlayerInt
 						break;
 					}
 			}
-			if(l == null || !board.isEmpty(l) || winnable(board) != null || losable(board) != null || dualWin(board) != null || dualLose(board) != null || triplePrep(board) != null) {
+			if(l == null || !board.isEmpty(l) || winnable(board) != null || losable(board) != null || dualWin(board) != null || dualLose(board) != null || dualWinPrep(board) != null || triplePrep(board) != null) {
 				if(winnable(board) != null) {
 					l = winnable(board);
 				}
@@ -84,6 +88,9 @@ public class The_Great_Wall_Of_Turtle implements PlayerInt
 				}
 				else if(dualLose(board) != null) {
 					l = dualLose(board);
+				}
+				else if(dualWinPrep(board) != null) {
+					l = dualWinPrep(board);
 				}
 				else if(triplePrep(board) != null) {
 					l = triplePrep(board);
@@ -506,6 +513,22 @@ public class The_Great_Wall_Of_Turtle implements PlayerInt
 					}
 					if(twoRows >= 3) {
 						return origin;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	public Location dualWinPrep(Board board) {
+		for(int c = 0 ; c < 4 ; c++) {
+			for(int r = 0 ; r < 4 ; r++) {
+				for(int d = 0 ; d < 4 ; d++) {
+					if(board.isEmpty(new Location(c, r, d))) {
+						board.setLocation(new Location(c, r, d), getLetter());
+						if(dualWin(board) != null) {
+							return new Location(c, r, d);
+						}
 					}
 				}
 			}
