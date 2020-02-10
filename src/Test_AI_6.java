@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -25,67 +26,40 @@ public class Test_AI_6 implements PlayerInt
 	{
 		Location l = null;
 		Random rand = new Random();
+		boolean done = false;
 		do
 		{
-			int myMove = 0;
-			boolean firstMove = true;
 			for(int c = 0 ; c < 4 ; c++) {
-				for (int r = 0; r < 4; r++) {
-					for (int d = 0; d < 4; d++) {
-						if(board.getLocation(new Location(c, r, d)) == getLetter()) {
-							myMove++;
+				for(int r = 0 ; r < 4 ; r++) {
+					for(int d = 0 ; d < 4 ; d++) {
+						if(board.isEmpty(new Location(c, r, d))) {
+							l = new Location(c, r, d);
+							done = true;
+						}
+						if(done) {
+							break;
 						}
 					}
+					if(done) {
+						break;
+					}
+				}
+				if(done) {
+					break;
 				}
 			}
-			if(myMove == 0) {
-				l = new Location(0, 0, 0);
-			}
-			if(!board.isEmpty(l)) {
-				myMove++;
-			}
-			if(myMove == 1) {
-				l = new Location(0, 1, 0);
-			}
-			if(!board.isEmpty(l)) {
-				myMove++;
-			}
-			if(myMove == 2) {
-				l = new Location(1, 1, 1);
-			}
-			if(!board.isEmpty(l)) {
-				myMove++;
-			}
-			if(myMove == 3) {
-				l = new Location(0, 1, 1);
-			}
-			if(!board.isEmpty(l)) {
-				myMove++;
-			}
-			if(myMove == 4) {
-				l = new Location(1, 1, 0);
-			}
-			if(!board.isEmpty(l)) {
-				l = null;
-			}
-			if(l == null) {
-				if(board.isEmpty(new Location(2, 1, 1))) {
-					l = new Location(2, 1, 1);
-				}
-				else if(winnable(board) != null) {
+//			l = new Location(rand.nextInt(4), rand.nextInt(4), rand.nextInt(4));
+
+			if(!board.isEmpty(l) || winnable(board) != null || losable(board) != null || dualWin(board) != null) {
+				if (winnable(board) != null) {
 					l = winnable(board);
-				}
-				else if(losable(board) != null) {
+				} else if (losable(board) != null) {
 					l = losable(board);
-				}
-				else if(dualWin(board) != null) {
+				} else if (dualWin(board) != null) {
 					l = dualWin(board);
 				}
-				else if(board.isEmpty(new Location(1, 1, 2))) {
-					l = new Location(1, 1, 2);
-				}
 				else {
-					l = new Location(rand.nextInt(4),rand.nextInt(4),rand.nextInt(4));
+					l = new Location(rand.nextInt(4), rand.nextInt(4), rand.nextInt(4));
 				}
 			}
 		}while(!board.isEmpty(l));
@@ -190,49 +164,49 @@ public class Test_AI_6 implements PlayerInt
 	public boolean[] checkSpot(int c, int r, int d) {
 		boolean[] checkSpot = new boolean[26];
 		Arrays.fill(checkSpot, true);
-		if (r == 0) {
-			for (int x = 0; x < 9; x++) {
-				checkSpot[x] = false;
-			}
-		} else if (r == 3) {
-			for (int x = 17; x < 26; x++) {
-				checkSpot[x] = false;
-			}
-		}
-		if (c == 0) {
-			for (int x = 0; x < 24; x += 3) {
-				if (x == 15) {
-					--x;
+			if (r == 0) {
+				for (int x = 0; x < 9; x++) {
+					checkSpot[x] = false;
 				}
-				checkSpot[x] = false;
-			}
-		} else if (c == 3) {
-			for (int x = 2; x < 26; x += 3) {
-				if (x == 14) {
-					x--;
+			} else if (r == 3) {
+				for (int x = 17; x < 26; x++) {
+					checkSpot[x] = false;
 				}
-				checkSpot[x] = false;
 			}
-		}
-		if (d == 3) {
-			for (int x = 0; x < 20; x++) {
-				if (x == 3) {
-					x = 9;
-				} else if (x == 12) {
-					x = 17;
+			if (c == 0) {
+				for (int x = 0; x < 24; x += 3) {
+					if (x == 15) {
+						--x;
+					}
+					checkSpot[x] = false;
 				}
-				checkSpot[x] = false;
-			}
-		} else if (d == 0) {
-			for (int x = 6; x < 26; x++) {
-				if (x == 9) {
-					x = 14;
-				} else if (x == 17) {
-					x = 23;
+			} else if (c == 3) {
+				for (int x = 2; x < 26; x += 3) {
+					if (x == 14) {
+						x--;
+					}
+					checkSpot[x] = false;
 				}
-				checkSpot[x] = false;
 			}
-		}
+			if (d == 3) {
+				for (int x = 0; x < 20; x++) {
+					if (x == 3) {
+						x = 9;
+					} else if (x == 12) {
+						x = 17;
+					}
+					checkSpot[x] = false;
+				}
+			} else if (d == 0) {
+				for (int x = 6; x < 26; x++) {
+					if (x == 9) {
+						x = 14;
+					} else if (x == 17) {
+						x = 23;
+					}
+					checkSpot[x] = false;
+				}
+			}
 		return checkSpot;
 	}
 

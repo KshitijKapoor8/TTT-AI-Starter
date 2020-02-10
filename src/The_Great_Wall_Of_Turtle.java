@@ -72,7 +72,7 @@ public class The_Great_Wall_Of_Turtle implements PlayerInt
 						break;
 					}
 			}
-			if(l == null || !board.isEmpty(l) || losable(board) != null || dualWin(board) != null || dualLose(board) != null || triplePrep(board) != null) {
+			if(l == null || !board.isEmpty(l) || winnable(board) != null || losable(board) != null || dualWin(board) != null || dualLose(board) != null || triplePrep(board) != null) {
 				if(winnable(board) != null) {
 					l = winnable(board);
 				}
